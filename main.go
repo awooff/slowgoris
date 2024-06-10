@@ -103,9 +103,9 @@ func DoLoris(
   if _, err := conn.Write(requestHeader); err != nil {
     log.Printf("Cannot write requestHeader[%v]: %s\n", requestHeader, err)
   }
-  return AttackVictium()
+  return AttackVictim()
 }
 
-func AttackVictium() (runtime.Func, runtime.Error) {
-  panic("unimplemented!")
+func AttackVictim() (runtime.Func, runtime.Error) {
+  return DialVictim(*victimUrl, false), runtime.StartTrace().Error
 }

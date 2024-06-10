@@ -22,13 +22,14 @@ OSTYPE='darwin22.6.0'
 PATH='/path-not-set'
 export PATH
 PS4='+ '
+SHELL='/sbin/nologin'
 builder='/nix/store/jlwqgw3nhd4sjfgpvj7q1panavcaii7g-bash-interactive-5.2-p15/bin/bash'
 export builder
 dontAddDisableDepTrack='1'
 export dontAddDisableDepTrack
-name='devenv-shell'
+name='devenv-shell-env'
 export name
-out='/Users/Cass/Projects/slowloris/outputs/out'
+out='/Users/cass/Projects/Slowgoris/outputs/out'
 export out
 outputs='out'
 shellHook='
@@ -63,11 +64,11 @@ export C_INCLUDE_PATH="$DEVENV_PROFILE/include:${C_INCLUDE_PATH-}"
 export XDG_DATA_DIRS="$DEVENV_PROFILE/share:${XDG_DATA_DIRS-}"
 export XDG_CONFIG_DIRS="$DEVENV_PROFILE/etc/xdg:${XDG_CONFIG_DIRS-}"
 
-export DEVENV_DOTFILE='\''/Users/Cass/Projects/slowloris/.devenv'\''
+export DEVENV_DOTFILE='\''/Users/cass/Projects/Slowgoris/.devenv'\''
 export DEVENV_PROFILE='\''/nix/store/k2jbsch84935hcnr5x6a4r6ihj8kgsrs-devenv-profile'\''
-export DEVENV_ROOT='\''/Users/Cass/Projects/slowloris'\''
-export DEVENV_STATE='\''/Users/Cass/Projects/slowloris/.devenv/state'\''
-export GOPATH='\''/Users/Cass/Projects/slowloris/.devenv/state/go'\''
+export DEVENV_ROOT='\''/Users/cass/Projects/Slowgoris'\''
+export DEVENV_STATE='\''/Users/cass/Projects/Slowgoris/.devenv/state'\''
+export GOPATH='\''/Users/cass/Projects/Slowgoris/.devenv/state/go'\''
 export GOROOT='\''/nix/store/dpnvxm37r1z9vk77mdc3h68b95kxvsji-go-1.20.8/share/go/'\''
 export GREET='\''devenv'\''
 
@@ -137,7 +138,7 @@ fi
 
 export PATH=$GOPATH/bin:$PATH
 
-echo "✨ devenv 0.6.2 is out of date. Please update to 0.6.3: https://devenv.sh/getting-started/#installation" >&2
+echo "✨ devenv 1.0.3 is newer than devenv input in devenv.lock. Run \`devenv update\` to sync."
 
 hello
 git --version
@@ -174,11 +175,11 @@ runHook ()
     eval "$shellHook";
     unset runHook
 }
-PATH="$PATH:$nix_saved_PATH"
-XDG_DATA_DIRS="$XDG_DATA_DIRS:$nix_saved_XDG_DATA_DIRS"
+PATH="$PATH${nix_saved_PATH:+:$nix_saved_PATH}"
+XDG_DATA_DIRS="$XDG_DATA_DIRS${nix_saved_XDG_DATA_DIRS:+:$nix_saved_XDG_DATA_DIRS}"
 export NIX_BUILD_TOP="$(mktemp -d -t nix-shell.XXXXXX)"
 export TMP="$NIX_BUILD_TOP"
 export TMPDIR="$NIX_BUILD_TOP"
 export TEMP="$NIX_BUILD_TOP"
 export TEMPDIR="$NIX_BUILD_TOP"
-eval "$shellHook"
+eval "${shellHook:-}"
